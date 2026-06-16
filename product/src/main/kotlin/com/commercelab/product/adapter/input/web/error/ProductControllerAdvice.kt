@@ -1,6 +1,5 @@
-package com.commercelab.product.adapter.input.web
+package com.commercelab.product.adapter.input.web.error
 
-import com.commercelab.product.adapter.input.web.dto.ErrorResponse
 import com.commercelab.product.application.exception.ProductNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,9 +13,11 @@ class ProductControllerAdvice {
     fun handle(e: ProductNotFoundException): ResponseEntity<ErrorResponse> {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .body(ErrorResponse(
-                errorCode = e.errorCode.name,
-                message = e.message
-            ))
+            .body(
+                ErrorResponse(
+                    errorCode = e.errorCode.name,
+                    message = e.message
+                )
+            )
     }
 }

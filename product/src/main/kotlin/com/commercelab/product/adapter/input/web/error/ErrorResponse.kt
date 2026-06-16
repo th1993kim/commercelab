@@ -1,4 +1,4 @@
-package com.commercelab.product.adapter.input.web.dto
+package com.commercelab.product.adapter.input.web.error
 
 data class ErrorResponse(
     val errorCode: String?,
