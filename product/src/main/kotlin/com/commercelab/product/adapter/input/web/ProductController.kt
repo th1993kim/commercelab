@@ -21,12 +21,12 @@ class ProductController(
     @GetMapping("/{productId}")
     fun getProduct(@PathVariable productId: Long) : GetProductResponse? {
         val productResult = productQueryUseCase.getProduct(productId);
-        return productResult?.let { result -> GetProductResponse(
-            id = result.id,
-            name = result.name,
-            description = result.description,
-            price = result.price
-        ) }
+        return GetProductResponse(
+            id = productResult.id,
+            name = productResult.name,
+            description = productResult.description,
+            price = productResult.price
+        )
     }
 
 }

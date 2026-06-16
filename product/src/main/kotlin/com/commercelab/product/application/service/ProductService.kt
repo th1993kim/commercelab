@@ -1,5 +1,6 @@
 package com.commercelab.product.application.service
 
+import com.commercelab.product.application.exception.ProductNotFoundException
 import com.commercelab.product.application.input.CreateProductCommand
 import com.commercelab.product.application.input.GetProductResult
 import com.commercelab.product.application.input.ProductCommandUseCase
@@ -27,13 +28,15 @@ class ProductService(
         ))
     }
 
-    override fun getProduct(id: Long): GetProductResult? {
+    override fun getProduct(id: Long): GetProductResult {
         val product = loadProductPort.load(id)
-        return product?.let { item -> GetProductResult(
-            id = requireNotNull(item.id),
-            name = item.name,
-            description = item.description,
-            price = item.price
-        )}
+            ?: throw ProductNotFoundException(id)
+
+        return GetProductResult(
+            id = requireNotNull(product.id),
+            name = product.name,
+            description = product.description,
+            price = product.price
+        )
     }
 }
