@@ -15,3 +15,9 @@ allprojects {
         mavenCentral()
     }
 }
+
+subprojects {
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+}
