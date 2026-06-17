@@ -15,7 +15,7 @@ class ProductControllerAdvice {
             .status(HttpStatus.NOT_FOUND)
             .body(
                 ErrorResponse(
-                    errorCode = e.errorCode.name,
+                    errorCode = ErrorCode.PRODUCT_NOT_FOUND.name,
                     message = e.message
                 )
             )
