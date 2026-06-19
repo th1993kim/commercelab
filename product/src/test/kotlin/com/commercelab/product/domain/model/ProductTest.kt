@@ -6,6 +6,27 @@ import kotlin.test.assertFailsWith
 
 class ProductTest {
 
+    @Test
+    fun `상품 변경 테스트`() {
+        val newProduct = Product.create(
+            name = "name",
+            description = "description",
+            price = 1000000
+        )
+
+        newProduct.update(
+            name = "newName",
+            description = null,
+            price = 10,
+            status = ProductStatus.DISCONTINUED
+        )
+
+        assertEquals("newName", newProduct.name)
+        assertEquals(null, newProduct.description)
+        assertEquals(10, newProduct.price)
+        assertEquals(ProductStatus.DISCONTINUED, newProduct.status)
+    }
+
 
     @Test
     fun `정상적인 상품 생성 테스트`() {

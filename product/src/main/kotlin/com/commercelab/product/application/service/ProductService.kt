@@ -5,6 +5,7 @@ import com.commercelab.product.application.input.CreateProductCommand
 import com.commercelab.product.application.input.GetProductResult
 import com.commercelab.product.application.input.ProductCommandUseCase
 import com.commercelab.product.application.input.ProductQueryUseCase
+import com.commercelab.product.application.input.UpdateProductCommand
 import com.commercelab.product.application.output.LoadProductPort
 import com.commercelab.product.application.output.SaveProductPort
 import com.commercelab.product.domain.model.Product
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class ProductService(
+class ProductService (
     private val saveProductPort: SaveProductPort,
     private val loadProductPort: LoadProductPort
 ) : ProductCommandUseCase, ProductQueryUseCase {
@@ -26,6 +27,20 @@ class ProductService(
             description = command.description,
             price = command.price
         ))
+    }
+
+    @Transactional
+    override fun updateProduct(command: UpdateProductCommand) {
+        val product = loadProductPort.load(command.id)
+            ?: throw ProductNotFoundException(command.id)
+        product.update(
+            name = command.name,
+            description = command.description,
+            price = command.price,
+            status = command.status
+        )
+
+        saveProductPort.save(product)
     }
 
     override fun getProduct(id: Long): GetProductResult {

@@ -2,9 +2,11 @@ package com.commercelab.product.adapter.input.web
 
 import com.commercelab.product.adapter.input.web.dto.CreateProductRequest
 import com.commercelab.product.adapter.input.web.dto.GetProductResponse
+import com.commercelab.product.adapter.input.web.dto.UpdateProductRequest
 import com.commercelab.product.adapter.input.web.error.ErrorResponse
 import com.commercelab.product.application.input.ProductCommandUseCase
 import com.commercelab.product.application.input.ProductQueryUseCase
+import com.commercelab.product.application.input.UpdateProductCommand
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
@@ -72,6 +74,26 @@ class ProductController(
             description = productResult.description,
             price = productResult.price
         )
+    }
+
+
+    @Operation(summary = "상품 수정", description = "상품 식별자 및 요청정보로 상품 정보를 수정합니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "상품 수정 성공"),
+            ApiResponse(
+                responseCode = "404",
+                description = "상품을 찾을 수 없음",
+                content = [
+                    Content(schema = Schema(implementation = ErrorResponse::class))
+                ]
+            )
+        ]
+    )
+    @PatchMapping("/{productId}")
+    fun updateProduct(@PathVariable productId: Long, @Valid @RequestBody request: UpdateProductRequest) {
+
+        productCommandUseCase.updateProduct(request.toUpdateProductCommand(productId))
     }
 
 }

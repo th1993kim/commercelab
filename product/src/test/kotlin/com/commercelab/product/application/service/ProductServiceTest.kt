@@ -2,6 +2,7 @@ package com.commercelab.product.application.service
 
 import com.commercelab.product.application.exception.ProductNotFoundException
 import com.commercelab.product.application.input.CreateProductCommand
+import com.commercelab.product.application.input.UpdateProductCommand
 import com.commercelab.product.application.output.LoadProductPort
 import com.commercelab.product.application.output.SaveProductPort
 import com.commercelab.product.domain.model.Product
@@ -17,6 +18,44 @@ class ProductServiceTest {
         saveProductPort = productRepository,
         loadProductPort = productRepository
     )
+
+    @Test
+    fun `상품이 존재할때 상품 데이터 변경 테스트`() {
+        productRepository.productMap[1L] = Product.restore(
+            id = 1L,
+            name = "name",
+            description = "description",
+            price = 1000000,
+            status = ProductStatus.ACTIVE
+        )
+        productService.updateProduct(UpdateProductCommand(
+            id = 1L,
+            name = "newName",
+            description = null,
+            price = 10,
+            status = ProductStatus.DISCONTINUED
+        ))
+
+        val product = productRepository.productMap.values.single()
+        assertNotNull(product)
+        assertEquals(product.id, 1L)
+        assertEquals(product.name, "newName")
+        assertEquals(product.description, null)
+        assertEquals(product.price, 10)
+        assertEquals(product.status, ProductStatus.DISCONTINUED)
+
+    }
+
+    @Test
+    fun `상품이 없을때 예외 호출 테스트`() {
+        assertFailsWith<ProductNotFoundException>{productService.updateProduct(UpdateProductCommand(
+            id = 1L,
+            name = "newName",
+            description = null,
+            price = 10,
+            status = ProductStatus.DISCONTINUED
+        ))}
+    }
 
     @Test
     fun `상품 저장 테스트`() {

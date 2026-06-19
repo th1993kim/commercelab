@@ -8,7 +8,7 @@ import com.commercelab.product.domain.model.Product
 import org.springframework.stereotype.Repository
 
 @Repository
-class ProductPersistenceAdapter(
+class ProductPersistenceAdapter (
     private val productJpaRepository : ProductJpaRepository
 ) : SaveProductPort, LoadProductPort {
     override fun save(product: Product) {

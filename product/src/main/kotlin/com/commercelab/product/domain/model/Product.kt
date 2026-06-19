@@ -7,6 +7,14 @@ class Product private constructor(
     price: Long,
     status: ProductStatus
 ) {
+
+    fun update(name: String, description: String?, price: Long, status: ProductStatus) {
+        this.name = name
+        this.description = description
+        this.price = price
+        this.status = status
+    }
+
     companion object {
         fun create(
             name: String,
