@@ -21,6 +21,13 @@ management:
     health:
       show-details: never
   metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      slo:
+        http.server.requests: 100ms,300ms,1s,3s,10s
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
     tags:
       application: ${spring.application.name}
   prometheus:

@@ -1,0 +1,12 @@
+apiVersion: 1
+
+providers:
+  - name: Commerce Lab
+    orgId: 1
+    folder: Commerce Lab
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
