@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: ${SERVER_PORT:9001}
 spring:
   application:
     name: commercelab
@@ -11,10 +11,15 @@ springdoc:
     operations-sorter: method
     tags-sorter: alpha
 management:
+  server:
+    port: ${MANAGEMENT_PORT:9002}
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,prometheus
+  endpoint:
+    health:
+      show-details: never
   metrics:
     tags:
       application: ${spring.application.name}
