@@ -1,5 +1,6 @@
 package com.commercelab.order.adapter.output.persistence
 
+import com.commercelab.order.domain.model.OrderItem
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -16,6 +17,7 @@ class OrderItemJpaEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_item_id")
     var id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,4 +38,14 @@ class OrderItemJpaEntity(
 
     @Column(nullable = false)
     var paymentAmount: Long
-)
+) {
+    companion object {
+        fun from(orderItem: OrderItem) = OrderItemJpaEntity(
+                productId = orderItem.productId,
+                productName = orderItem.productName,
+                unitPrice = orderItem.unitPrice,
+                quantity = orderItem.quantity,
+                paymentAmount = orderItem.paymentAmount
+        )
+    }
+}

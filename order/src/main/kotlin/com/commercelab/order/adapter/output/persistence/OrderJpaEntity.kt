@@ -1,5 +1,6 @@
 package com.commercelab.order.adapter.output.persistence
 
+import com.commercelab.order.domain.model.Order
 import com.commercelab.order.domain.model.OrderStatus
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -69,5 +70,23 @@ class OrderJpaEntity(
     fun addItem(item: OrderItemJpaEntity) {
         item.order = this;
         items.add(item);
+    }
+
+    companion object {
+        fun from(order: Order) : OrderJpaEntity {
+            val orderEntity = OrderJpaEntity(
+                orderNumber = order.orderNumber,
+                ordererId = order.ordererId,
+                ordererName = order.ordererName,
+                ordererEmail = order.ordererEmail,
+                status = order.status,
+                totalAmount = order.totalAmount,
+                idempotencyKey = order.idempotencyKey,
+            )
+
+            order.items.forEach { item -> orderEntity.items.add(OrderItemJpaEntity.from(item)) }
+
+            return orderEntity;
+        }
     }
 }

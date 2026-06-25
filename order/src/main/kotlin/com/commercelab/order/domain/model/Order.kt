@@ -10,7 +10,7 @@ class Order(
     var status: OrderStatus,
     var totalAmount: Long,
     var idempotencyKey: String,
-    var items: MutableList<OrderItem>? = null,
+    var items: MutableList<OrderItem>
 ) {
 
 }
