@@ -11,6 +11,7 @@ kotlin {
 
 dependencies {
     implementation(project(":product"))
+    implementation(project(":order"))
 
     implementation(kotlin("reflect"))
     implementation("org.springframework.boot:spring-boot-starter-actuator")

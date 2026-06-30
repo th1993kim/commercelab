@@ -89,4 +89,19 @@ class OrderJpaEntity(
             return orderEntity;
         }
     }
+
+    fun toDomain() : Order {
+        return Order(
+            id = requireNotNull(id),
+            orderNumber = orderNumber,
+            ordererId = ordererId,
+            ordererName = ordererName,
+            ordererEmail = ordererEmail,
+            status = status,
+            totalAmount = totalAmount,
+            idempotencyKey = idempotencyKey,
+            items = items.map{ item -> item.toDomain()}.toMutableList()
+        )
+
+    }
 }

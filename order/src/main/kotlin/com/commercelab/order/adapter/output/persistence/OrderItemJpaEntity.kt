@@ -39,6 +39,17 @@ class OrderItemJpaEntity(
     @Column(nullable = false)
     var paymentAmount: Long
 ) {
+    fun toDomain() : OrderItem {
+        return OrderItem(
+            id = requireNotNull(id),
+            productId = productId,
+            productName = productName,
+            unitPrice = unitPrice,
+            quantity = quantity,
+            paymentAmount = paymentAmount
+        )
+    }
+
     companion object {
         fun from(orderItem: OrderItem) = OrderItemJpaEntity(
                 productId = orderItem.productId,

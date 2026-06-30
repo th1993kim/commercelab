@@ -8,12 +8,15 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-class ProductPersistenceAdapter(
-    private val productJpaRepository: OrderJpaRepository
+class OrderPersistenceAdapter(
+    private val orderJpaRepository: OrderJpaRepository
 ) : SaveOrderPort {
 
-    override fun save(order: Order) {
-        OrderJpaEntity.from(order);
+    override fun save(order: Order) : Order {
+        val orderEntity = OrderJpaEntity.from(order);
+        orderJpaRepository.save(orderEntity);
+
+        return orderEntity.toDomain();
     }
 
 }

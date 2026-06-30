@@ -1,6 +1,8 @@
 package com.commercelab.order.adapter.input.web
 
 import com.commercelab.order.adapter.input.web.dto.CreateOrderRequest
+import com.commercelab.order.application.input.CreateOrderResult
+import com.commercelab.order.application.input.OrderCommandUseCase
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/api/orders")
 @RestController
-class OrderController {
+class OrderController(
+    private val orderCommandUseCase: OrderCommandUseCase
+) {
 
     @PostMapping
-    fun createOrder(@Valid @RequestBody request: CreateOrderRequest) {
-
-
-
+    fun createOrder(@Valid @RequestBody request: CreateOrderRequest) : CreateOrderResult {
+        return orderCommandUseCase.save(request.toCommand())
     }
 }
